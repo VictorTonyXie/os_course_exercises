@@ -33,7 +33,11 @@ SS：Stack Segment堆栈段寄存器，用来存放堆栈段的基址
 
 2. x86描述符特权级DPL、当前特权级CPL和请求特权级RPL的含义是什么？在哪些寄存器中存在这些字段？对应的访问条件是什么？
 
+DPL：DPL存储在段描述符中,规定访问该段的权限级别(Descriptor Privilege Level)
 
+CPL：CPL是当前进程的权限级别(Current Privilege Level),是当前正在执行的代码所在的段的特权级
+
+RPL：RPL保存在选择子的最低两位。RPL说明的是进程对段访问的请求权限，意思是当前进程想要的请求权限(Request Privilige Level)
 
 3. 分析可执行文件格式elf的格式（无需回答）
 
@@ -42,8 +46,18 @@ SS：Stack Segment堆栈段寄存器，用来存放堆栈段的基址
 ### 4.2 x86中断处理过程
 
 1. x86/RV中断处理中硬件压栈内容？用户态中断和内核态中断的硬件压栈有什么不同？
+
+用户态依次压入EFLAGS,CS,EIP,Error Code
+
+内核态依次压入SS,ESP,EFLAGS,CS,EIP,Error Code
+
 2. 为什么在用户态的中断响应要使用内核堆栈？
+
+特权级需要进行转换
+
 3. x86中trap类型的中断门与interrupt类型的中断门有啥设置上的差别？如果在设置中断门上不做区分，会有什么可能的后果?
+
+interrupt类型比trap类型优先级更高，如果不区分，interrupt会覆盖trap
 
 ### 4.3 练习四和五 ucore内核映像加载和函数调用栈分析
 
